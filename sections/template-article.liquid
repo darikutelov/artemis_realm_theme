@@ -27,7 +27,7 @@
             {% when 'featured_image' %}
                 <div itemprop="image" class="max-w-7xl bg-blue-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4">
                     {% if article.image != blank %}
-                        <img class="w-full h-80 md:h-96 object-cover object-center" width="{{ article.image.width }}" height="{{ article.image.height }}" src="{{ article.image | image_url: 'large' }}" alt="{{ article.image.alt }}">
+                        <img src="{{ article.image | image_url: width: 500 }}" class="w-full h-96 object-cover object-center" width="{{ article.image.width }}" height="{{ article.image.height }}" alt="{{ article.image.alt }}">
                     {% else %}
                         {% assign placeholder_image = 'lifestyle-1' %}
                         {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
@@ -54,7 +54,11 @@
                 {% paginate article.comments by 5 %}
                     {% for comment in article.comments %}
                         <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                            <span class="comment-author">{{ comment.author }}</span> <span class="text-xs text-gray-400">{{ comment.created_at | date: format: 'default' }}</span>
+                            <span 
+                                class="comment-author"
+                            >{{ comment.author }}</span> <span 
+                                class="text-xs text-gray-400">
+                                {{ comment.created_at | date: format: 'default' }}</span>
                             <p class="text-sm">{{ comment.content }}</p>
                         </div>
                     {% endfor %}
@@ -69,7 +73,9 @@
                 {% endpaginate %}
             </div>
         {% else %}
-            There are no comments in this article
+            <div class="flex items-center justify-center">
+                There are no comments in this article
+            </div>
         {% endif %}
     </div>
 
@@ -130,12 +136,19 @@
                 <div class="px-1 md:flex mb-3">
                     <div class="md:w-full px-3">
                         <label for="comment_content" class="text-gray-700 font-medium uppercase text-xs mb-2">Comment</label>
-                        <textarea class="w-full text-gray-700 resize-none h-20 py-2 px-3 focus:outline-none border" name="comment[body]" id="comment_content" required></textarea>
+                        <textarea 
+                            class="w-full text-gray-700 resize-none h-20 py-2 px-3 focus:outline-none border" 
+                            name="comment[body]" 
+                            id="comment_content" 
+                            required>
+                        </textarea>
                     </div>
                 </div>
                 <div class="px-1 md:flex mb-3">
                     <div class="md:w-full px-3">
-                        <input type="submit" class="w-full cursor-pointer px-4 py-2 border text-base font-medium text-white bg-gray-900 hover:bg-gray-500" value="Post comment">
+                        <input type="submit" 
+                            class="w-full cursor-pointer px-4 py-2 border text-base font-medium text-white bg-gray-900 hover:bg-gray-500" 
+                            value="Post comment">
                     </div>
                 </div>
             </div>

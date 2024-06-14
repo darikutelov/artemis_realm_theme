@@ -3,11 +3,6 @@
     "template": {
       "type": "template-article",
       "blocks": {
-        "thumbnail": {
-          "type": "featured_image",
-          "settings": {
-          }
-        },
         "title": {
           "type": "article_title",
           "settings": {
@@ -15,6 +10,11 @@
         },
         "published_date": {
           "type": "article_published_date",
+          "settings": {
+          }
+        },
+        "thumbnail": {
+          "type": "featured_image",
           "settings": {
           }
         },
@@ -30,9 +30,9 @@
         }
       },
       "block_order": [
-        "thumbnail",
         "title",
         "published_date",
+        "thumbnail",
         "author",
         "content"
       ],

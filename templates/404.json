@@ -1,8 +1,11 @@
 {
-    "sections": {
-        "template": {
-            "type": "template-404"
-        }
-    },
-    "order": ["template"]
+  "name": "template-404",
+  "layout": "custom_theme",
+  "wrapper": "div#404_template.custom-class[custom-attribute=hello]",
+  "sections": {
+    "template404": {
+      "type": "template-404"
+    }
+  },
+  "order": ["template404"]
 }

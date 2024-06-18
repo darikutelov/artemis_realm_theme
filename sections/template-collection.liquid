@@ -1,7 +1,21 @@
 <div class="px-4 py-8">
-    <a href="{{ routes.collections_url }}" class="text-base text-gray-500 hover:underline text-center block my-4">Go back to collections</a>
+    {% assign url = request.path %}
+    {% unless url contains '/collections/all' %}
+        <a 
+            href="{{ routes.all_products_collection_url }}" 
+            class="text-base text-gray-500 hover:underline text-center block my-4"
+        >
+            Show All Products
+        </a>
+    {% endunless %}
+    
     {% paginate collection.products by section.settings.number_of_products_per_page %}
-        <h1 class="text-3xl text-center">{{ collection.title }}</h1>
+        <h1 class="text-3xl text-center">
+            {% if url contains '/collections/all' %}
+                <span>All </span> 
+            {% endif %}
+            {{ collection.title }}
+        </h1>
 
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -25,7 +39,7 @@
         {
             "type": "number",
             "id": "number_of_products_per_page",
-            "default": 6,
+            "default": 9,
             "label": "Number of products per page"
         }
     ]

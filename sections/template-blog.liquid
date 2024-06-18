@@ -9,10 +9,12 @@
                             
                             {% if article.image %}
                                 <a href="{{ article.url }}">
+                                    {% assign width = article.image.width %}
+                                    {% assign height = article.image.height %}
                                     <img class="w-full h-80 object-cover" 
-                                        src="{{ article.image | imgage_url: width: {{ article.image.width }} }}" 
-                                        width="{{ article.image.width }}" 
-                                        height="{{ article.image.height }}" 
+                                        src="{{ article.image | image_url }}" 
+                                        width="{{ width }}" 
+                                        height="{{ height }}" 
                                         alt="{{ article.image.alt }}"
                                         loading="lazy"
                                     >

@@ -3,10 +3,11 @@
 
     <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {% for product in section.settings.featured_collection.products limit: section.settings.number_of_products_to_show %}
+            {% for product in section.settings.featured_collection.products 
+                limit: section.settings.number_of_products_to_show %}
                 {% render 'product-card', product_product: product %}
             {% else %}
-                {% for item in (1..4) %}
+                {% for item in (1..section.settings.number_of_products_to_show ) %}
                     {% render 'product-card-placeholder' %}
                 {% endfor %}
             {% endfor %}

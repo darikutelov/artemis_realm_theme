@@ -3,15 +3,35 @@
         <a href="{{ product_product.url }}">
             {% if product_product.featured_image %}
                 <div class="h-80 overflow-hidden">
-                    {% assign width = item.image.width %}
-                    {% assign height = item.image.height %}
-                    <img 
-                        class="w-full h-full object-cover transition duration-1000 ease-in-out hover:scale-105 transform" 
-                        src="{{ product_product.featured_image | image_url }}" 
-                        alt="{{ product_product.featured_image.alt }}"
-                        width={{ width }}
-                        height={{ height }}
-                    >
+                    <div class="w-full h-full relative">
+                        {% assign width = '350' %}
+                        {% assign height = '350' %}
+                        
+                        {% if product_product.images.size > 1 %}
+                            <img 
+                                class="w-full h-full object-cover transition-opacity duration 0.3 ease-in-out opacity-100 hover:opacity-0" 
+                                src="{{ product_product.featured_image | image_url }}" 
+                                alt="{{ product_product.featured_image.alt }}"
+                                width={{ width }}
+                                height={{ height }}
+                            >
+                            <img 
+                                class="absolute top-0 left-0 object-cover transition-opacity duration 0.3 ease-in-out opacity-0 hover:opacity-100" 
+                                src="{{ product_product.images[1] | image_url }}" 
+                                alt="{{ product_product.images[1] }}"
+                                width={{ width }}
+                                height={{ height }}
+                            >
+                        {% else %}
+                            <img 
+                                class="w-full h-full object-cover transition duration-1000 ease-in-out hover:scale-105 transform" 
+                                src="{{ product_product.featured_image | image_url }}" 
+                                alt="{{ product_product.featured_image.alt }}"
+                                width={{ width }}
+                                height={{ height }}
+                            >
+                        {% endif %}
+                    </div>
                 </div>            
             {% else %}
                 {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover bg-gray-100' }}

@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css">
-<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js" defer></script>
+
+{% comment %} Swiper CDNs {% endcomment %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
 
 {% assign selected_variant = product.selected_or_first_available_variant %}
 
@@ -19,7 +23,7 @@
     <div class="max-w-6xl mx-auto my-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="product--medias">
-                <div class="hidden md:block">
+                <div class="hidden">
                     {% for media in product.media %}
                         <div class="h-100 overflow-hidden p-2">
                             {% render 'product-media', media: media %}
@@ -27,8 +31,9 @@
                     {% endfor %}
                 </div>
 
+                <!-- Mobile Carousel -->
                 <div class="md:hidden">
-                    <div class="swiper">
+                    <div class="swiper h-[28rem]" select-none>
                         <div class="swiper-wrapper">
                             {% for media in product.media %}
                                 <div class="swiper-slide">
@@ -39,10 +44,9 @@
                             {% endfor %}
                         </div>
 
-                        <div class="swiper-pagination"></div>
-
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+                        <div class="swiper-pagination lg:!hidden"></div>
+                        <div class="swiper-button-prev lg:!hidden"></div>
+                        <div class="swiper-button-next lg:!hidden"></div>
                     </div>
                 </div>
             </div>
@@ -244,10 +248,32 @@
     customElements.define("variant-selector", VariantSelector);
 </script>
 
+<style>
+  :root {
+    --swiper-theme-color: white;
+  }
+ 
+  @media (min-width: 1024px) {
+    .swiper-wrapper {
+      display: block;
+    }
+  }
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        try {
-            const swiper = new Swiper('.swiper', {
+    let swiper = Swiper;
+    let init = false;
+    let mq = window.matchMedia('(max-width: 1023px)');
+
+    const handleCarousel = () => {
+        let toShowSlider = mq.matches;
+       
+        if (toShowSlider && !init) {
+            console.log("init")
+            init = true;
+            swiper = new Swiper('.swiper', {
                     direction: 'horizontal',
 
                     pagination: {
@@ -259,10 +285,17 @@
                         nextEl: '.swiper-button-next'
                 }
             })
-        } catch(e) { console.log("SwiperJS is not defined"); }
-    })
+        } else if (init) {
+            swiper.destroy();
+            init = false;
+        }
+    }
+
+    window.addEventListener('load', handleCarousel);
+    window.addEventListener('change', handleCarousel)  
     
 </script>
+
 
 {% schema %}
 {

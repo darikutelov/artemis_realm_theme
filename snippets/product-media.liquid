@@ -1,12 +1,14 @@
 {% case media.media_type %}
     {% when 'image' %}
-        <img 
-            src="{{ media | image_url }}" 
-            alt="{{ media.preview_image.alt }}" 
-            class="w-full h-full object-cover"
-            width="{{ media.preview_image.width }}"
-            height="{{ media.preview_image.height }}"
-        >
+        <picture>
+            <source media="(min-width: 768px)" srcset="{{ media | image_url: width: 1500 }}" />
+            <source media="(min-width: 300px)" srcset="{{ media| image_url: width: 750 }}" />
+            {{ media | image_url: width: 1500 | image_tag: loading: 'lazy',
+                sizes:  '(min-width:768px) 1500px, (min-width: 300px) 750px', 
+                class: 'w-full h-80 object-cover',
+                widths: '750, 1500',
+                alt: media.preview_image.alt | escape  }}
+        </picture>
     
     {% when 'external_video' %}
         {{ media | external_video_tag: class: 'w-full h-80 object-cover' }}

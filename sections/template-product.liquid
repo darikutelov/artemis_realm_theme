@@ -1,14 +1,12 @@
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css">
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
 
-{% comment %} Swiper CDNs {% endcomment %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
+<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css">
 
 {% assign selected_variant = product.selected_or_first_available_variant %}
 
 <script src="{{ 'product-model.js' | asset_url }}" defer></script>
+<script src="{{ 'variant-selector.js' | asset_url }}" defer="defer"></script>
 
 <style>
     .swiper-button-prev, .swiper-button-next { color: black; top: auto !important; height: 20px; }
@@ -19,11 +17,11 @@
 </style>
 
 <div x-data="{ productModalOpen: false }">
-
     <div class="max-w-6xl mx-auto my-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="product--medias">
-                <div class="hidden">
+
+                <div class="hidden md:block">
                     {% for media in product.media %}
                         <div class="h-100 overflow-hidden p-2">
                             {% render 'product-media', media: media %}
@@ -31,9 +29,8 @@
                     {% endfor %}
                 </div>
 
-                <!-- Mobile Carousel -->
                 <div class="md:hidden">
-                    <div class="swiper h-[28rem]" select-none>
+                    <div class="swiper">
                         <div class="swiper-wrapper">
                             {% for media in product.media %}
                                 <div class="swiper-slide">
@@ -44,15 +41,19 @@
                             {% endfor %}
                         </div>
 
-                        <div class="swiper-pagination lg:!hidden"></div>
-                        <div class="swiper-button-prev lg:!hidden"></div>
-                        <div class="swiper-button-next lg:!hidden"></div>
+                        <div class="swiper-pagination"></div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
                 </div>
+                
             </div>
 
             <div class="product--information sticky top-5 p-2">
                 {% form 'product', product, id: 'product-form', novalidate: 'novalidate' %}
+
+                    {% comment %} Needed to add to cart button to work {% endcomment %}
                     <input type="hidden" name="id" value="{{ selected_variant.id }}">
 
                     {% for block in section.blocks %}
@@ -67,19 +68,30 @@
                                 </div>
                             {% when 'price' %}
                                 <div class="my-3" id="price-{{ section.id }}">
-                                    <span class="text-base text-gray-500 line-through">{{ selected_variant.compare_at_price | money }}</span>
-                                    <span class="text-lg text-gray-900">{{ selected_variant.price | money }}</span>
+                                    <span class="text-base text-gray-500 line-through">
+                                        {{ selected_variant.compare_at_price | money }}
+                                    </span>
+                                    <span class="text-lg text-gray-900">
+                                        {{ selected_variant.price | money }}
+                                    </span>
 
                                     {% if selected_variant.price < selected_variant.compare_at_price %}
-                                        <span class="px-5 py-1 text-sm font-bold bg-red-500 rounded-full text-white mx-4">Sale</span>
+                                        <span class="px-5 py-1 text-sm font-bold bg-red-500 rounded-full text-white mx-4">
+                                            Sale
+                                        </span>
                                     {% endif %}
                                 </div>
                             {% when 'variant_selector' %}
                                 <div class="my-3">
                                     {% unless product.has_only_default_variant %}
-                                        <variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}">
+                                        <variant-selector 
+                                            data-url="{{ product.url }}" 
+                                            data-section="{{ section.id }}"
+                                        >
                                             {% for option in product.options_with_values %}
-                                                <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+                                                <label for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                                                    {{ option.name }}
+                                                </label>
 
                                                 <div class="my-2">
                                                     <select 
@@ -114,7 +126,13 @@
                                     <label for="Quantity-{{ section.id }}">Quantity</label>
 
                                     <div class="my-2">
-                                        <input type="number" name="quantity" id="Quantity-{{ section.id }}" value="1" min="1" class="w-full border px-3 py-3">
+                                        <input
+                                            type="number" 
+                                            name="quantity" 
+                                            id="Quantity-{{ section.id }}" 
+                                            value="1" 
+                                            min="1" 
+                                            class="w-full border px-3 py-3">
                                     </div>
                                 </div>
                             {% when 'description' %}
@@ -124,7 +142,11 @@
 
                             {% when 'checkout_buttons' %}
                                 <div class="my-3">
-                                    <button type="submit" name="add" class="w-full px-6 py-4 bg-gray-900 text-white hover:bg-gray-700 rounded-sm my-2"
+                                    <button 
+                                        type="submit" 
+                                        name="add" 
+                                        class="w-full px-6 py-4 bg-gray-900 text-white hover:bg-gray-700 rounded-sm my-2"
+
                                         {% if selected_variant.available == false %}
                                             disabled
                                         {% endif %}
@@ -157,12 +179,20 @@
     </style>
 
     <div id="productModelModal">
-        <div x-show="productModalOpen" class="w-full h-full z-50 items-center fixed inset-0">
+        <div 
+            x-show="productModalOpen" 
+            class="w-full h-full z-50 items-center fixed inset-0"
+        >
             <div class="relative w-full h-full bg-white">
                 <div class="relative">
                     <div class="flex justify-between items-start p-5 border-b">
-                        <h2 class="text-xl font-bold text-gray-700">3D Model Preview</h2>
-                        <button x-on:click="productModalOpen = false" class="text-gray-400 bg-transparent hover:text-gray-700 rounded text-sm p-2 ml-auto inline-flex items-center">
+                        <h2 class="text-xl font-bold text-gray-700">
+                            3D Model Preview
+                        </h2>
+                        <button 
+                            x-on:click="productModalOpen = false" 
+                            class="text-gray-400 bg-transparent hover:text-gray-700 rounded text-sm p-2 ml-auto inline-flex items-center"
+                        >
                             {% render 'icon-close' %}
                         </button>
                     </div>
@@ -174,106 +204,12 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <script>
-    class VariantSelector extends HTMLElement {
-        constructor() {
-            super();
-            this.addEventListener("change", this.onVariantChange);
-        }
-
-        onVariantChange() {
-            this.getSelectedOptions();
-            this.getSelectedVariant();
-
-            if(this.currentVariant) {
-                this.updateURL();
-                this.updateFormID();
-                this.updatePrice();
-            }
-        }
-
-        getSelectedOptions() {
-            this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
-            console.log(this.options);
-        }
-
-        getVariantJSON() {
-            this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
-            return this.variantData;
-        }
-
-        getSelectedVariant() {
-            this.currentVariant = this.getVariantJSON().find(
-                (variant) => {
-                    const findings = !variant.options.map(
-                        (option, index) => {
-                            return this.options[index] === option;
-                        }
-                    ).includes(false);
-
-                    if(findings) return variant;
-                }
-            );
-
-            console.log(this.currentVariant);
-        }
-
-        updateURL() {
-            if(!this.currentVariant) return;
-            window.history.replaceState({}, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
-        }
-
-        updateFormID() {
-            const form_input = document.querySelector("#product-form").querySelector('input[name="id"]');
-            form_input.value = this.currentVariant.id;
-        }
-
-        updatePrice() {
-            fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
-            .then((response) => response.text())
-            .then((responseText) => {
-                const id = `price-${this.dataset.section}`;
-                const html = new DOMParser().parseFromString(responseText, 'text/html');
-
-                const oldPrice = document.getElementById(id);
-                const newPrice = html.getElementById(id);
-
-                if(oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
-            });
-        }
-    }
-
-    customElements.define("variant-selector", VariantSelector);
-</script>
-
-<style>
-  :root {
-    --swiper-theme-color: white;
-  }
- 
-  @media (min-width: 1024px) {
-    .swiper-wrapper {
-      display: block;
-    }
-  }
-</style>
-
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-    let swiper = Swiper;
-    let init = false;
-    let mq = window.matchMedia('(max-width: 1023px)');
-
-    const handleCarousel = () => {
-        let toShowSlider = mq.matches;
-       
-        if (toShowSlider && !init) {
-            console.log("init")
-            init = true;
-            swiper = new Swiper('.swiper', {
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const swiper = new Swiper('.swiper', {
                     direction: 'horizontal',
 
                     pagination: {
@@ -285,17 +221,10 @@
                         nextEl: '.swiper-button-next'
                 }
             })
-        } else if (init) {
-            swiper.destroy();
-            init = false;
-        }
-    }
-
-    window.addEventListener('load', handleCarousel);
-    window.addEventListener('change', handleCarousel)  
+        } catch(e) { console.log("SwiperJS is not defined"); }
+    })
     
 </script>
-
 
 {% schema %}
 {

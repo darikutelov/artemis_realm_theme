@@ -891,10 +891,6 @@ video {
   height: 100vw;
 }
 
-.h-\[28rem\] {
-  height: 28rem;
-}
-
 .h-full {
   height: 100%;
 }
@@ -1006,12 +1002,6 @@ video {
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.select-none {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
 }
 
 .resize-none {
@@ -1876,10 +1866,6 @@ video {
 
   .lg\:ml-0 {
     margin-left: 0px;
-  }
-
-  .lg\:\!hidden {
-    display: none !important;
   }
 
   .lg\:h-80 {

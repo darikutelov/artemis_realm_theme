@@ -54,6 +54,8 @@
         {% paginate customer.addresses by 10 %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-12 p-4 md:p-12">
                 {% for address in customer.addresses %}
+                    {% assign isDefault = address == customer.default_address %}
+
                     <div x-data="{ address_{{ address.id }}: false }">
                         <div class="relative flex flex-col text-center border p-2">
                             {% if address == customer.default_address %}
@@ -105,7 +107,7 @@
                                 </div>
 
                                 {% form 'customer_address', address %}
-                                    {% render 'form-address-fields', form: form %}
+                                    {% render 'form-address-fields', form: form, isDefault: isDefault %}
                     
                                     <div class="flex flex-row gap-2">
                                         <button 

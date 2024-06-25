@@ -38,7 +38,8 @@
                     </div>
 
                     <div>
-                        <h1 class="text-xl font-medium mb-4">{{ line_item.title | link_to: line_item.product.url }}</h1>
+                        <h1 class="text-xl font-medium mb-4 text-gray-700 hover:text-gray-900 hover:font-bold">
+                            {{ line_item.title | link_to: line_item.product.url }}</h1>
 
                         <table class="table-auto w-full mb-4">
                             <tbody>
@@ -85,7 +86,9 @@
                     {% if line_item.successfully_fulfilled_quantity > 0 %}
                         <p class="mb-2">We have fulfilled {{ line_item.successfully_fulfilled_quantity }} items of your recent order.</p>
                         <p class="mb-2">Tracking company: {{ line_item.fulfillment.tracking_company }}</p>
-                        <p class="mb-2">Tracking number: {{ line_item.fulfillment.tracking_number }}</p>
+                        {% if line_item.fulfillment.tracking_number %}                           
+                            <p class="mb-2">Tracking number: {{ line_item.fulfillment.tracking_number }}</p>
+                        {% endif %}
 
                         <a 
                             target="_blank" 

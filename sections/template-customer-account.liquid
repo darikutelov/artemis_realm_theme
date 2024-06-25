@@ -31,12 +31,12 @@
 
                                 <div class="mt-4 flex items-start justify-between">
                                     <div>
-                                        <h3 class="text-sm text-gray-700">
+                                        <h3 class="text-sm text-gray-700 ">
                                             {{ order.name | link_to: order.customer_url }}
                                         </h3>
 
-                                        <p class="mt-1 text-sm text-gray-500">
-                                            {{ order.financial_status_label }}
+                                        <p class="mt-1 text-sm text-gray-500 text-decoration-line: underline hover:text-decoration-line: none">
+                                            {{ order.financial_status_label }} &rarr;
                                         </p>
                                     </div>
                                     <div class="text-right">

@@ -165,13 +165,12 @@
     {% if isDefault %}
         <p class="text-xs font-medium text-green-700 px-4 py-2">This address is set as default</p>
     {% else %}
-        {{ form.set_as_default_checkbox }}
+        {{ form.set_as_default_checkbox }}    
+        <label 
+            for="address_default_address_{{ form.id }}" 
+            class="uppercase text-gray-700 text-xs font-medium mb-2"
+        >
+            Set as default address
+        </label>
     {% endif %}
-    
-    <label 
-        for="address_default_address_{{ form.id }}" 
-        class="uppercase text-gray-700 text-xs font-medium mb-2"
-    >
-        Set as default address
-    </label>
 </div>

@@ -30,7 +30,7 @@
             </div>
 
             {% form 'customer_address', customer.new_address %}
-                {% render 'form-address-fields', form: form %}
+                {% render 'form-address-fields', form: form, isDefault: false %}
 
                 <div class="flex flex-row gap-2">
                     <button 
@@ -54,7 +54,10 @@
         {% paginate customer.addresses by 10 %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-12 p-4 md:p-12">
                 {% for address in customer.addresses %}
-                    {% assign isDefault = address == customer.default_address %}
+                    {% assign is_default = false %}
+                    {% if address == customer.default_address %}
+                        {% assign is_default = true %}
+                    {% endif %}
 
                     <div x-data="{ address_{{ address.id }}: false }">
                         <div class="relative flex flex-col text-center border p-2">
@@ -107,7 +110,7 @@
                                 </div>
 
                                 {% form 'customer_address', address %}
-                                    {% render 'form-address-fields', form: form, isDefault: isDefault %}
+                                    {% render 'form-address-fields', form: form, isDefault: is_default %}
                     
                                     <div class="flex flex-row gap-2">
                                         <button 
@@ -175,7 +178,7 @@
                 var provinces = selectedCountry.dataset.provinces;
                 var arrayOfProvince = JSON.parse(provinces);
 
-                // Gets id from data-id="{{ form.id }}" of the select country tag
+                {%- comment -%} Gets id from data-id="{{ form.id }}" of the select country tag{%- endcomment -%}
                 var provinceSelector = document.querySelector(`#address_province_${select.dataset.id}`);
 
                 if(arrayOfProvince.length < 1) {

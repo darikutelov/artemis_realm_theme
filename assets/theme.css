@@ -1834,3 +1834,7 @@ Ensure the default browser behavior of the `hidden` attribute.
     column-gap: 2rem;
   }
 }
+
+[x-cloak] {
+  display: none !important;
+}

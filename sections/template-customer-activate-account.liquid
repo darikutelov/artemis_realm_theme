@@ -17,7 +17,8 @@
                 {% endif %}
                 <div>
                     <label for="password">Password</label>
-                    <input type="password" 
+                    <input 
+                        type="password" 
                         name="customer[password]" 
                         id="password"
                         placeholder="New password"
@@ -28,7 +29,8 @@
 
                 <div>
                     <label for="confirm_password">Confirm password</label>
-                    <input type="password" 
+                    <input 
+                        type="password" 
                         name="customer[password_confirmation]" 
                         id="confirm_password"
                         placeholder="Confirm your password"
@@ -38,8 +40,19 @@
                 </div>
 
                 <div class="block md:flex">
-                    <button type="submit" class="w-full border py-2 px-4 text-sm font-medium text-white bg-gray-700 hover:bg-gray-900">Activate account</button>
-                    <button type="submit" name="decline" class="w-full border py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-700 hover:text-white">Decline invitation</button>
+                    <button 
+                        type="submit" 
+                        class="w-full border py-2 px-4 text-sm font-medium text-white bg-gray-700 hover:bg-gray-900"
+                    >
+                        Activate account
+                    </button>
+                    <button 
+                        type="submit" 
+                        name="decline" 
+                        class="w-full border py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-700 hover:text-white"
+                    >
+                        Decline invitation
+                    </button>
                 </div>
             {% endform %}
         </div>

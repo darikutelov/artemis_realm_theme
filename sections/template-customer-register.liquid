@@ -6,7 +6,10 @@
         <div class="mt-8">
             {% form 'create_customer' %}
                 {% if form.errors %}
-                    <div class="relative border border-red-400 bg-red-100 text-red-700 px-4 py-3" role="alert">
+                    <div 
+                        class="relative border border-red-400 bg-red-100 text-red-700 px-4 py-3" 
+                        role="alert"
+                    >
                         <strong class="font-bold">Error!</strong>
                         <p class="block sm:inline">{{ form.errors | default_errors }}</p>
                     </div>
@@ -14,7 +17,8 @@
 
                 <div class="my-2">
                     <label for="first_name" class="sr-only">First name</label>
-                    <input type="text"
+                    <input 
+                        type="text"
                         name="customer[first_name]"
                         id="first_name"
                         autocomplete="given-name"
@@ -25,7 +29,8 @@
 
                 <div class="my-2">
                     <label for="last_name" class="sr-only">Last name</label>
-                    <input type="text"
+                    <input 
+                        type="text"
                         name="customer[last_name]"
                         id="last_name"
                         autocomplete="family-name"
@@ -36,7 +41,8 @@
 
                 <div class="my-2">
                     <label for="birthday" class="sr-only">Birthday</label>
-                    <input type="date"
+                    <input 
+                        type="date"
                         name="customer[note][Birthday]"
                         id="birthday"
                         class="relative block w-full px-3 py-2 border"
@@ -45,7 +51,8 @@
 
                 <div class="my-2">
                     <label for="email_address" class="sr-only">Email address</label>
-                    <input type="email"
+                    <input 
+                        type="email"
                         name="customer[email]"
                         id="email_address"
                         autocomplete="email"
@@ -57,7 +64,8 @@
                 
                 <div class="my-2">
                     <label for="password" class="sr-only">Password</label>
-                    <input type="password"
+                    <input 
+                        type="password"
                         name="customer[password]"
                         id="password"
                         autocomplete="new-password"
@@ -67,7 +75,10 @@
                 </div>
                 
                 <div>
-                    <button type="submit" class="relative w-full py-2 px-4 text-sm font-medium text-white bg-gray-600 hover:bg-gray-900">
+                    <button 
+                        type="submit" 
+                        class="relative w-full py-4 px-4 text-sm font-medium text-white bg-gray-600 hover:bg-gray-900"
+                    >
                         Create account
                     </button>
                 </div>
